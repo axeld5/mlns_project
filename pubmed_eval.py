@@ -46,6 +46,7 @@ if __name__ == "__main__":
     g = torch_geometric.utils.to_networkx(pubmed, to_undirected=True)
     pubmedGraph = to_networkx(pubmed)
     node_labels = data.y[list(pubmedGraph.nodes)].numpy()
+    """line commented because it doesn't work yet"""
     #nx.draw(g, cmap=plt.get_cmap('Set1'),node_color = node_labels,node_size=75,linewidths=6)
     
     data = data.to(device)
