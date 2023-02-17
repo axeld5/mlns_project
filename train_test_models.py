@@ -1,4 +1,6 @@
-def train(model, data, epochs):
+import torch
+
+def train(model, train_loader, epochs, device):
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = model.optimizer
 
