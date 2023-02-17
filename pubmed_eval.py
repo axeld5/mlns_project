@@ -20,7 +20,6 @@ if __name__ == "__main__":
     # Load the PubMed dataset
     dataset = Planetoid(root='.', name="Pubmed")
     data = dataset[0]
-    data = data.to(device)
 
     # view the dataset details
     # Print information about the dataset
@@ -48,6 +47,8 @@ if __name__ == "__main__":
     pubmedGraph = to_networkx(pubmed)
     node_labels = data.y[list(pubmedGraph.nodes)].numpy()
     #nx.draw(g, cmap=plt.get_cmap('Set1'),node_color = node_labels,node_size=75,linewidths=6)
+    
+    data = data.to(device)
 
 
     # Create batches with neighbor sampling
