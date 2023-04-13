@@ -7,9 +7,9 @@ from torch_geometric.utils.convert import to_networkx
 from torch_geometric.loader import NeighborLoader
 from torch_geometric.utils import to_networkx
 
-from models.gat import GAT 
-from models.gcn import GCN 
-from models.graphsage import GraphSAGE
+from gnn_models.gat import GAT 
+from gnn_models.gcn import GCN 
+from gnn_models.graphsage import GraphSAGE
 from train_test_models import train, test
 
 
