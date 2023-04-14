@@ -12,10 +12,20 @@ if __name__ == "__main__":
     label_list = [g.nodes[i]["y"] for i in range(len(node_list))]
 
     extractor = FeatureExtractor()
-    features = extractor.feature_extract(g, node_list)
+    features = extractor.global_feature_extract(g, node_list)
+    train_features, test_features, train_labels, test_labels = train_test_split(features, label_list)
+    comm_pred = feature_prediction(train_features, train_labels, test_features)
+    print("global features based classifier accuracy =", accuracy_score(test_labels, comm_pred))
+
+    features = extractor.node_feature_extract(g, node_list)
     train_features, test_features, train_labels, test_labels = train_test_split(features, label_list)
     comm_pred = feature_prediction(train_features, train_labels, test_features)
     print("node features based classifier accuracy =", accuracy_score(test_labels, comm_pred))
+
+    features = extractor.full_feature_extract(g, node_list)
+    train_features, test_features, train_labels, test_labels = train_test_split(features, label_list)
+    comm_pred = feature_prediction(train_features, train_labels, test_features)
+    print("node and global features based classifier accuracy =", accuracy_score(test_labels, comm_pred))
 
     train_nodes, test_nodes, train_labels, test_labels = train_test_split(node_list, label_list)
     comm_pred = get_community_based_pred(g, train_nodes, train_labels, test_nodes)
