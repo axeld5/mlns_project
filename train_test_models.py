@@ -25,9 +25,14 @@ def train(model, train_loader, epochs, device):
         optimizer.step()
 
         # Validation
-        val_loss += criterion(out[batch.val_mask], batch.y[batch.val_mask])
-        val_acc += accuracy(out[batch.val_mask].argmax(dim=1), 
-                            batch.y[batch.val_mask])
+        try:
+            val_loss += criterion(out[batch.val_mask], batch.y[batch.val_mask])
+            val_acc += accuracy(out[batch.val_mask].argmax(dim=1), 
+                                batch.y[batch.val_mask])
+        except AttributeError:
+            val_loss += criterion(out[batch.test_mask], batch.y[batch.test_mask])
+            val_acc += accuracy(out[batch.test_mask].argmax(dim=1), 
+                                batch.y[batch.test_mask])           
 
       # Print metrics every 10 epochs
       if(epoch % 10 == 0):

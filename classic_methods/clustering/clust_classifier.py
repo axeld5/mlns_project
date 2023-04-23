@@ -26,10 +26,10 @@ def get_majority_label(train_nodes, train_labels, c):
         for j, node in enumerate(train_nodes):
             if node in community:
                 comm_lab_dict[i].append(train_labels[j]) 
-        if len(comm_lab_dict[i]) > 0:
+        try:
             comm_lab_dict[i] = max(comm_lab_dict[i], key=comm_lab_dict[i].count)
-        else: 
-            comm_lab_dict[i] = np.random.choice(train_labels)
+        except ValueError:
+            comm_lab_dict[i] = 0
     return comm_lab_dict
 
 def get_pred(comm_dict, comm_lab_dict, test_nodes):
