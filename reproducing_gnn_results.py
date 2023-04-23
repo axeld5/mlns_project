@@ -1,25 +1,15 @@
 import argparse
-
 import torch
-from torch_geometric.datasets import Planetoid
+import numpy as np 
+import networkx as nx 
+
 from torch_geometric.loader import NeighborLoader
+from torch_geometric.data import Data
 
 from gnn_models.gat import GAT
 from gnn_models.gcn import GCN
 from gnn_models.graphsage import GraphSAGE
-
-def load_dataset(dataset_name):
-    assert dataset_name.lower() in ("pubmed", "cora", "citeseer")
-    dataset = Planetoid(root='.', name=dataset_name.lower())
-    data = dataset[0]
-
-    train_loader = NeighborLoader(
-        data,
-        num_neighbors=[10, 10],
-        batch_size=32,
-        input_nodes=data.train_mask,
-    )
-    return train_loader, dataset
+from load_datasets import load_dataset, import_amazon_dataset, train_test_masks
 
 def accuracy(pred_y, y):
     """Calculate accuracy."""
@@ -62,7 +52,7 @@ def train(model, train_loader):
         # Validation
         val_loss += criterion(out[batch.val_mask], batch.y[batch.val_mask])
         val_acc += accuracy(out[batch.val_mask].argmax(dim=1), 
-                            batch.y[batch.val_mask])
+                                batch.y[batch.val_mask])
 
       # Print metrics every 10 epochs
       if(epoch % 10 == 0):
@@ -87,16 +77,17 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", type=str, default="rbf", help="Kernel to use.")
     args = parser.parse_args()
 
-    # Loads dataset
-    train_loader, dataset = load_dataset(args.dataset)
+    train_loader, dataset = load_dataset(args.dataset, to_netx=False)
     data = dataset[0]
+    num_features = dataset.num_features
+    num_classes = dataset.num_classes
 
     if args.model.lower() == "gcn":
-       model = GCN(dataset.num_features, dataset.num_classes)
+       model = GCN(num_features, num_classes)
     elif args.model.lower() == "gat":
-       model = GAT(dataset.num_features, dataset.num_classes)
+       model = GAT(num_features, num_classes)
     elif args.model.lower() == "graphsage":
-       model = GraphSAGE(dataset.num_features, 64, dataset.num_classes)
+       model = GraphSAGE(num_features, 64, num_classes)
     else:
        raise NotImplementedError
 

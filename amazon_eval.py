@@ -37,8 +37,7 @@ if __name__ == "__main__":
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Uncomment one of the following line in order to load to load either Pubmed, Citeseer or Cora or the Amazon dataset using BERT embedding or TFI-IDF.
-    nx_graph = load_dataset("Cora", to_netx=True)
-    # nx_graph = import_amazon_dataset(edge_path='..\\edges.csv', embeddings_path='..\\BERT_embeddings2.csv', embedding="BERT")
+    nx_graph = import_amazon_dataset(edge_path='amazon_dataset/edges.csv', embeddings_path='amazon_dataset/BERT_embeddings2.csv', embedding="BERT")
 
     # Print information about the dataset
     print(f'Dataset: {nx_graph}')
