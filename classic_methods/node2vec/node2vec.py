@@ -9,7 +9,7 @@ def get_node2vec_embeddings(g):
     return embeddings
 
 def node2vec_prediction(train_embeddings, train_labels, test_embeddings): 
-    clf = LogisticRegression()
+    clf = LogisticRegression(max_iter=10000)
     clf.fit(train_embeddings, train_labels)
     y_pred = clf.predict(test_embeddings) 
     return y_pred
