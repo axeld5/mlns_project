@@ -1,15 +1,10 @@
 import argparse
 import torch
-import numpy as np 
-import networkx as nx 
-
-from torch_geometric.loader import NeighborLoader
-from torch_geometric.data import Data
 
 from gnn_models.gat import GAT
 from gnn_models.gcn import GCN
 from gnn_models.graphsage import GraphSAGE
-from load_datasets import load_dataset, import_amazon_dataset, train_test_masks
+from load_datasets import load_dataset
 
 def accuracy(pred_y, y):
     """Calculate accuracy."""
